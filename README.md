@@ -8,15 +8,10 @@ Ideal for busy professionals, founders, researchers, and productivity enthusiast
 ✨ Features
 
 🔁 Scheduled automation (daily summary at midnight)
-
 📥 Fetches the latest emails from your Gmail inbox.
-
 🧠 AI-powered summarization using Google Gemini
-
 📦 Aggregates multiple emails into one intelligent summary
-
 ✉️ Automatically creates a Gmail draft with the summarized output
-
 ⚙️ Completely no-code solution using n8n visual workflows
 
 🧰 Tech Stack
