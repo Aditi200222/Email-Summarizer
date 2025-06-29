@@ -1,4 +1,6 @@
-📬 Email Summarizing Agent using n8n & Gemini AI:
+📬 Email Summarizing Agent using n8n & Gemini AI
+
+
 This project automates the process of reading, summarizing, and drafting Gmail messages using n8n and Google’s Gemini AI. With a simple no-code workflow, it retrieves emails on a daily schedule, summarizes them using an AI agent, and sends the results to your Gmail Drafts folder.
 
 Ideal for busy professionals, founders, researchers, and productivity enthusiasts who want a quick overview of their inbox without reading each message individually.
