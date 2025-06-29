@@ -1,43 +1,61 @@
-📬 Email Summarizing Agent using n8n + Gemini AI
-A simple automation built with n8n that summarizes daily Gmail messages using Google Gemini AI and saves the summary to your Gmail as a draft. 
-Ideal for daily digests, inbox management, and productivity boosts.
+📬 Email Summarizing Agent using n8n & Gemini AI:
+This project automates the process of reading, summarizing, and drafting Gmail messages using n8n and Google’s Gemini AI. With a simple no-code workflow, it retrieves emails on a daily schedule, summarizes them using an AI agent, and sends the results to your Gmail Drafts folder.
 
-🛠️ Features
-•	Fetches emails from Gmail every 24 hours using n8n's schedule trigger
-•	Limits the number of messages (e.g., top 10) for summarization
-•	Aggregates snippets from multiple emails
-•	Uses Google Gemini AI to summarize key details:
-    	Key information
-    	Issues to look out for
-    	Action items
-    	Learning outcomes
-•	Sends the final summary to your Gmail Drafts
+Ideal for busy professionals, founders, researchers, and productivity enthusiasts who want a quick overview of their inbox without reading each message individually.
 
-🧩 Tools Used
-•	n8n (workflow automation)
-•	Gmail API (OAuth2 integration)
-•	Google Gemini AI (via API key)
-•	Aggregator & AI Agent nodes in n8n
+✨ Features
+🔁 Scheduled automation (daily summary at midnight)
+📥 Fetches the latest emails from your Gmail inbox.
+🧠 AI-powered summarization using Google Gemini
+📦 Aggregates multiple emails into one intelligent summary
+✉️ Automatically creates a Gmail draft with the summarized output
+⚙️ Completely no-code solution using n8n visual workflows
 
-⚙️ Workflow Steps
-1.	Schedule Trigger (every 24 hours)
-2.	Gmail → Get many messages
-3.	Aggregator Node → Combine message snippets
-4.	AI Agent Node → Summarize the aggregated content
-5.	Gmail → Create Draft with the summary
+🧰 Tech Stack
+•	n8n (Workflow automation)
+•	Gmail API (via OAuth2)
+•	Google Gemini AI (LLM with API key)
+•	Optional: OpenAI or other LLMs can be substituted
 
-🔐 Requirements
-•	n8n account (self-hosted or cloud)
-•	Gmail OAuth2 credentials with scopes:
-   o	https://www.googleapis.com/auth/gmail.readonly
-•	Gemini AI API key (for LLM summaries)
+🛠 Workflow Overview
+Here’s how the automation works:
 
-📤 How to Use
-•	Clone or import the workflow into your n8n workspace
-•	Connect your Gmail and Gemini credentials
-•	Customize filters, token limits, or email subjects as needed
-•	Activate the workflow to receive daily AI-generated email summaries
+⏰ Schedule Trigger
+ Runs the workflow every 24 hours (midnight by default)
+📩 Gmail Node
+ Fetches up to 10 recent emails received in the last 24 hours using OAuth2 credentials
+🔗 Aggregator Node
+ Combines email snippets into one structured input
+🤖 AI Agent Node
+ Uses Gemini to analyze:
+ - Key details
+ - Problems/issues raised
+ - Action items
+ - Learnings or next steps
+📝 Gmail Draft Node
+ Creates a draft email in your Gmail with the summarized output
+
+🔐 Prerequisites
+✅ An n8n cloud or self-hosted instance
+
+✅ Gmail OAuth2 Credentials with the following scopes:
+https://www.googleapis.com/auth/gmail.readonly
+(or modify/send scope if needed)
+
+✅ Google Gemini API key (or alternative LLM provider)
+
+•	🚀 Getting Started
+•	Import the workflow into your n8n account
+•	Connect your Gmail credentials using OAuth2
+•	Add your Gemini AI credentials (API key)
+•	Test the workflow manually to preview results
+•	Activate the workflow to run automatically every day
+
+🧪 Example Use Cases
+•	Daily email summary digest in your inbox
+•	Automatic briefing for newsletters or clients
+•	Organizing leads and inquiries for a sales team
+•	Summarizing customer feedback or support tickets
 
 📝 License
-MIT License
-
+MIT License – feel free to fork and build on top of this project!
