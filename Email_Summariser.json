@@ -1,0 +1,196 @@
+{
+  "name": "Email Summariser",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -540,
+        20
+      ],
+      "id": "5ff42479-54a0-4302-8823-f71b041be6b1",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 10,
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -320,
+        20
+      ],
+      "id": "6ec357b7-f344-4247-b2d5-ed560a7c1183",
+      "name": "Get many messages",
+      "webhookId": "1d664e05-160a-4d2c-8cb8-60863b98eb24",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "BmOoBocVrJSSZyQl",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "snippet"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        20
+      ],
+      "id": "141c317a-8ca4-4583-be9f-35b1a0dfeea1",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-exp",
+        "options": {
+          "maxOutputTokens": 2048,
+          "temperature": 0.4,
+          "topK": 32,
+          "topP": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        160,
+        240
+      ],
+      "id": "b348d172-fb4b-4d55-82f6-d510a0d965eb",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "0XdBGxBdJIsUtvwi",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "Email Summary",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        20
+      ],
+      "id": "0133b176-61d7-4185-a75e-0b72dcb8467b",
+      "name": "Create a draft",
+      "webhookId": "48e5552b-6112-4a81-9105-135a7162dafe",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "BmOoBocVrJSSZyQl",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=go through this email snippet and identify all key details mentioned, any specific issues to look at, action items and what can be learnt.\n\nsnippet:  {{ $json.snippet[0] }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        120,
+        20
+      ],
+      "id": "39e38b32-e20b-4afd-973a-b89f5356232d",
+      "name": "Email Summary Agent"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many messages": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Email Summary Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Email Summary Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Summary Agent": {
+      "main": [
+        [
+          {
+            "node": "Create a draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a00d1642-970c-41ed-af69-9619b373e763",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cde76a34d60548db81421682e627ae8452c1429a1b97253bfca4a5405cef81fe"
+  },
+  "id": "tK9YR1QoYgdwczBj",
+  "tags": []
+}
